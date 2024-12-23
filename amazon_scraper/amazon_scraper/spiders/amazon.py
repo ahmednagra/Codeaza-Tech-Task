@@ -17,25 +17,7 @@ class AmazonSpider(Spider):
         # Retry and concurrency settings
         'RETRY_TIMES': 5,
         'RETRY_HTTP_CODES': [500, 502, 503, 504, 400, 403, 404, 408],
-        # 'CONCURRENT_REQUESTS': 3,
-        'FEED_EXPORTERS': {
-            'json': 'scrapy.exporters.JsonItemExporter',
-        },
-
-        # 'FEEDS': {
-        #     f'output/Amazon Products Detail {current_dt}.json': {
-        #         'format': 'json',
-        #         'encoding': 'utf8',
-        #         'fields': [
-        #             'retailer_id', 'retailer_name', 'retailer_country', 'retailer_website',
-        #             'product_id', 'product_title', 'product_description', 'promotion_type',
-        #             'promotion_description', 'promotion_price', 'promotion_discount',
-        #             'promotion_conditions', 'promotion_start_date', 'promotion_expiry',
-        #             'promotion_badge_type', 'rich_content_displayed', 'rich_content_images',
-        #             'timestamp'
-        #         ]
-        #     }
-        # }
+        'CONCURRENT_REQUESTS': 1,
     }
 
     headers = {
@@ -93,6 +75,9 @@ class AmazonSpider(Spider):
                 prod_img = product.css('.s-image[srcset] ::attr(src)').get('').strip()
                 url = ''.join(product.css('[data-cy="title-recipe"] a::attr(href)').get('').split('ref=sr')[0:1])
 
+                if 'javascript:void(0)' in url:
+                    continue
+
                 item['Title'] = product.css('h2 ::text').get('').strip()
                 item['Stars Ranking'] = product.css('i ::text').get('').strip()
                 item['Total reviews'] = product.css('.a-size-base.s-underline-text ::text').get('').strip()
@@ -113,18 +98,14 @@ class AmazonSpider(Spider):
                 self.write_json(item, query)
         except Exception as e:
             self.write_logs(f'Error in listing Page URl: {response.url}')
-            a=1
 
         # pagination
-        # try:
-        #     url = response.url
-        #     for page_no in range(2, 21):
-        #         next_page_url = f'{url}{page_no}'
-        #         yield Request(next_page_url, callback=self.parse_listingpage,
-        #                   dont_filter=True, headers=self.headers, meta=response.meta)
-        # except Exception as e:
-        #     self.write_logs(f"Pagination failed for {response.url}: {e}")
-
+        if not response.meta.get('next_page', ''):
+            for page_no in range(2, 21):
+                response.meta['next_page'] = True
+                next_page_url = f'{response.url}&page={page_no}'
+                yield Request(next_page_url, callback=self.parse_listingpage,
+                          dont_filter=True, headers=self.headers, meta=response.meta)
 
     def write_json(self, item, query):
         try:
@@ -173,7 +154,7 @@ class AmazonSpider(Spider):
             print(log_msg)
 
     def close(spider, reason):
-        spider.write_logs(f'Spider Started at:{spider.script_starting_datetime}')
+        spider.write_logs(f'\n\nSpider Started at:{spider.script_starting_datetime}')
         spider.write_logs(f'Spider Stopped at:{datetime.now().strftime("%d-%m-%Y %H:%M:%S")}')
         spider.write_logs(f"Spider closed: {reason}")
         spider.write_logs(f"Total items scraped: {spider.all_items_scraped}")

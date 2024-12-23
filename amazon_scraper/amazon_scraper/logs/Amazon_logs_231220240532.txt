@@ -1,0 +1,8 @@
+[INIT] Script started at 23-12-2024 05:32:42
+
+
+ Search Keyword: headphones now start scraping
+Spider Started at:23-12-2024 05:32:42
+Spider Stopped at:23-12-2024 05:37:29
+Spider closed: finished
+Total items scraped: 306

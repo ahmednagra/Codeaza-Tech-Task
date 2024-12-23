@@ -1,5 +1,0 @@
-[INIT] Script started at 22-12-2024 12:07:01
-
-
- Search Keyword: television sets now start scraping
-Error in json Writing File: Extra data: line 13 column 1 (char 483)

@@ -1,0 +1,34 @@
+[INIT] Script started at 23-12-2024 05:42:58
+
+
+ Search Keyword: television sets now start scraping
+
+
+ Search Keyword: wireless earbuds now start scraping
+
+
+ Search Keyword: bluetooth speakers now start scraping
+
+
+ Search Keyword: digital cameras now start scraping
+
+
+ Search Keyword: gaming consoles now start scraping
+
+
+ Search Keyword: smartwatches now start scraping
+
+
+ Search Keyword: tablets now start scraping
+
+
+ Search Keyword: laptops now start scraping
+
+
+ Search Keyword: smartphones now start scraping
+
+
+Spider Started at:23-12-2024 05:42:58
+Spider Stopped at:23-12-2024 06:03:20
+Spider closed: finished
+Total items scraped: 2754
