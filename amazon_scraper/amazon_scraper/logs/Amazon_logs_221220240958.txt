@@ -1,0 +1,12 @@
+[INIT] Script started at 22-12-2024 09:58:10
+
+
+ Search Keyword:television sets now start scraping
+Spider Started at:22-12-2024 09:58:10
+Spider Stopped at:22-12-2024 09:58:12
+[INIT] Script started at 22-12-2024 09:58:43
+
+
+ Search Keyword:television sets now start scraping
+Spider Started at:22-12-2024 09:58:43
+Spider Stopped at:22-12-2024 09:58:44
